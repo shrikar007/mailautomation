@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+
+        .outer{
+            width:60%;
+            margin:auto;
+            height: 100%;
+            background: transparent;
+            padding-top: 1%;
+            padding-bottom: 5%;
+        }
+        .inner {
+            width:80%;
+            margin:auto;
+            margin-top: 1%;
+            margin-bottom: 5%;
+        }
+        .form-control{
+            background-color:transparent !important;
+
+        }
+        .btn-warning{
+            color: black !important;
+
+        }
+
+    </style>
+    <meta charset="UTF-8">
+    <title>Mail Auto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="back">
+    <div class="outer">
+        <div class="inner">
+            <form enctype="multipart/form-data" method="post">
+                <div class="row">
+                <div class="col-lg-10">
+                    <div class="form-group">
+                         <label><font size="4">Subject:</font></label><br />
+                        <input class="form-control" type="text"  placeholder="Enter Subject" name="subject" required><br />
+                    </div>
+                </div>
+                </div>
+
+                <div class="row">
+                <div class="col-lg-10">
+                    <div class="form-group">
+                        <label><font size="4">Body:</font></label><br />
+                         <textarea  class="form-control" rows="25" cols="80" placeholder="Enter Body" name="comment" required></textarea><br>
+                     </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-10">
+                    <div class="form-group">
+                        <label><font size="4">Choose CSV file:</font></label><br />
+                         <input type="file" name="uploadfile">
+                         <input type="hidden" name="token" value="{{.}}"/><br>
+                     </div>
+                 </div>
+                </div>
+                <div class="row">
+                 <div class="col-lg-10">
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-warning" value="Send" /><br>
+                    </div>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
