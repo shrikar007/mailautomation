@@ -8,8 +8,10 @@ import (
 	"log"
 	"net/http"
 	"net/smtp"
+	"os"
 )
 func main(){
+
 	http.HandleFunc("/mail",Mail)
 	fmt.Println(http.ListenAndServe(":9191",nil))
 }
@@ -20,14 +22,8 @@ func Mail(w http.ResponseWriter, r *http.Request)  {
 	}
 
 	subject:="Subject:"+r.FormValue("subject")+"\n"
-
-
 	data:=r.FormValue("comment")
-	fmt.Println(data)
-
 	file,f1,_:=r.FormFile("uploadfile")
-
-
 	err1 := t1.ExecuteTemplate(w, "mail.html", nil)
 	if err1 != nil {
 		log.Fatal(err1)
@@ -44,24 +40,19 @@ func Mail(w http.ResponseWriter, r *http.Request)  {
 		go mailsend(data,subject,fname)
 	}
 }
-
-
 func mailsend(data string,subject string,fname []string){
 	auth := smtp.PlainAuth(
 		"",
-		"pysvms@gmail.com",
-		"shrikar.007",
+		os.Getenv("USER"),
+		os.Getenv("PASS"),
 		"smtp.gmail.com",
 	)
-
-
-
 	msg := []byte(subject+data)
 
 	err := smtp.SendMail(
 		"smtp.gmail.com:587",
 		auth,
-		"pysvms@gmail.com",
+		os.Getenv("USER"),
 		fname[1:],
 		msg,
 	)
