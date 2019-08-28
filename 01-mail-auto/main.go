@@ -43,15 +43,15 @@ func Mail(w http.ResponseWriter, r *http.Request)  {
 		for _, name := range line[1:] {
 			fname = append(fname, name[index])
 		}
-		fmt.Println(fname)
+		//fmt.Println(fname)
 		go mailsend(data,subject,fname)
 	}
 }
 func mailsend(data string,subject string,fname []string){
 	auth := smtp.PlainAuth(
 		"",
-		os.Getenv("USER"),
-		os.Getenv("PASS"),
+		os.Getenv("USER"),//sender email address
+		os.Getenv("PASS"),// password
 		"smtp.gmail.com",
 	)
 	msg := []byte(subject+data)
@@ -59,7 +59,7 @@ func mailsend(data string,subject string,fname []string){
 	err := smtp.SendMail(
 		"smtp.gmail.com:587",
 		auth,
-		os.Getenv("USER"),
+		os.Getenv("USER"),//sender email address
 		fname,
 		msg,
 	)
