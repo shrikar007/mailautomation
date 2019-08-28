@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/smtp"
 	"os"
+	"strings"
 )
 func main(){
 
@@ -16,6 +17,7 @@ func main(){
 	fmt.Println(http.ListenAndServe(":9191",nil))
 }
 func Mail(w http.ResponseWriter, r *http.Request)  {
+	var index int
 	t1, err := template.ParseFiles("mail.html")
 	if err != nil {
 		log.Fatal(err)
@@ -33,10 +35,15 @@ func Mail(w http.ResponseWriter, r *http.Request)  {
 		reader := csv.NewReader(bufio.NewReader(csvfile))
 		var fname []string
 		line, _ := reader.ReadAll()
-		for _, name := range line {
-			fname = append(fname, name[1])
+		for i,em:=range line[0]{
+			if strings.Contains(strings.ToLower(em),"mail"){
+				index=i
+			}
 		}
-		fname=append(fname)
+		for _, name := range line[1:] {
+			fname = append(fname, name[index])
+		}
+		fmt.Println(fname)
 		go mailsend(data,subject,fname)
 	}
 }
@@ -53,7 +60,7 @@ func mailsend(data string,subject string,fname []string){
 		"smtp.gmail.com:587",
 		auth,
 		os.Getenv("USER"),
-		fname[1:],
+		fname,
 		msg,
 	)
 
